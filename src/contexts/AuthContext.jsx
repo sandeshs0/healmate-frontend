@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import api from "../lib/api";
+import { createContext, useContext, useEffect, useState } from "react";
+import { authService } from "../services/authService";
 
 const AuthContext = createContext();
 
@@ -13,23 +13,24 @@ export function AuthProvider({ children }) {
     if (storedToken) {
       setToken(storedToken);
       // Optionally verify token and fetch user
+      // authService.getCurrentUser().then(setUser).catch(() => {});
     }
     setLoading(false);
   }, []);
 
   const signup = async (name, email, password) => {
-    await api.post("/auth/signup", { name, email, password });
+    await authService.signup(name, email, password);
   };
 
   const verifyOTP = async (email, otp) => {
-    const { data } = await api.post("/auth/verify-otp", { email, otp });
+    const data = await authService.verifyOTP(email, otp);
     setToken(data.token);
     setUser(data.user);
     localStorage.setItem("token", data.token);
   };
 
   const login = async (email, password) => {
-    const { data } = await api.post("/auth/login", { email, password });
+    const data = await authService.login(email, password);
     setToken(data.token);
     setUser(data.user);
     localStorage.setItem("token", data.token);
@@ -42,7 +43,9 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, signup, verifyOTP, logout, loading }}>
+    <AuthContext.Provider
+      value={{ user, token, login, signup, verifyOTP, logout, loading }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -55,4 +58,3 @@ export function useAuth() {
   }
   return context;
 }
-

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
@@ -7,14 +7,26 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get("reset") === "success") {
+      setSuccess(
+        "Password reset successful! You can now login with your new password."
+      );
+      // Remove the query parameter from URL
+      navigate("/login", { replace: true });
+    }
+  }, [searchParams, navigate]);
 
   const handleChange = (e) => {
     setFormData({
@@ -71,6 +83,32 @@ export default function Login() {
 
           {/* Login Card */}
           <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+            {/* Success Message */}
+            {success && (
+              <div
+                className="mb-6 p-4 bg-green-50 border-1 rounded-md border-green-500"
+                role="alert"
+                aria-live="polite"
+              >
+                <div className="flex items-start">
+                  <svg
+                    className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <p className="text-md text-green-700 font-medium">
+                    {success}
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Error Message */}
             {error && (
               <div
