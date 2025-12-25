@@ -17,7 +17,7 @@ export default function Home() {
       <Hero />
 
       {/* Manifesto Section */}
-      <section className="py-24 bg-primary text-white overflow-hidden rounded-t-[6rem]">
+      <section className="py-24 bg-primary text-white overflow-hidden md:rounded-t-[6rem] rounded-t-[3rem]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
