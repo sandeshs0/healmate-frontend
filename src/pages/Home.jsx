@@ -223,7 +223,7 @@ export default function Home() {
                 <div className="relative">
                   <div className="absolute -inset-4 bg-gradient-to-br from-primary/10 to-accent/10 rounded-3xl transform -rotate-2" />
                   <img
-                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=600"
+                    src="https://images.unsplash.com/photo-1483706600674-e0c87d3fe85b?q=80&w=1207&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                     className="relative rounded-3xl shadow-2xl"
                     alt="Secure and private"
                   />
