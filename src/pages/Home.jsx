@@ -197,11 +197,6 @@ export default function Home() {
                       title: "No Paper Trail",
                       text: "Digital first. Zero physical mail to your home.",
                     },
-                    {
-                      icon: <Shield size={22} />,
-                      title: "Anonymous Profiles",
-                      text: "Use any name. We never verify your identity.",
-                    },
                   ].map((item, i) => (
                     <div
                       key={i}
@@ -238,40 +233,117 @@ export default function Home() {
       <FAQ />
 
       {/* CTA */}
-      <section className="py-16 relative overflow-hidden bg-gradient-to-b from-white to-gray-50">
-        <div className="max-w-4xl mx-auto px-6 text-center scroll-fade-in">
-          <span className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-semibold mb-6">
-            Ready to Begin?
-          </span>
-          <h2 className="text-5xl md:text-7xl font-display font-black text-primary mb-6 leading-tight">
-            The best version of you{" "}
-            <span className="text-accent">starts here.</span>
-          </h2>
-          <p className="text-xl text-gray-500 mb-10 max-w-2xl mx-auto">
-            No judgment. No prescriptions. Just real guidance from qualified
-            doctors who understand.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              to="/signup"
-              className="px-10 py-5 bg-primary text-white rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-2xl shadow-primary/30 inline-flex items-center justify-center gap-2"
-            >
-              Book Your First Session <ArrowRight size={20} />
-            </Link>
-            <Link
-              to="/doctors"
-              className="px-10 py-5 border-2 border-primary text-primary rounded-full font-bold text-lg hover:bg-primary hover:text-white transition-all"
-            >
-              Meet Our Doctors
-            </Link>
-          </div>
-          <p className="mt-8 text-gray-400 font-medium">
-            100% Confidential • No Subscriptions • MBBS Qualified
-          </p>
+      <section className="py-24 relative overflow-hidden">
+        {/* Background with gradient */}
+        <div className="absolute inset-0 bg-primary" />
+
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
+          <div className="absolute -top-1/2 -right-1/4 w-[600px] h-[600px] bg-accent/20 rounded-full blur-3xl" />
+          <div className="absolute -bottom-1/2 -left-1/4 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-3xl" />
+          {/* Subtle grid pattern */}
+          <div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage: `radial-gradient(circle, white 1px, transparent 1px)`,
+              backgroundSize: "32px 32px",
+            }}
+          />
         </div>
 
-        {/* Background Accent */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[120px] -z-10" />
+        <div className="max-w-7xl mx-auto px-6 relative">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left: Text Content */}
+            <div className="scroll-fade-in">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-white mb-6 leading-tight">
+                Ready to take
+                <br />
+                <span className="text-accent">the first step?</span>
+              </h2>
+              <p className="text-lg text-white/70 mb-8 max-w-md">
+                No judgment. No prescriptions. Just real guidance from qualified
+                doctors who understand what you're going through.
+              </p>
+
+              {/* Trust badges */}
+              <div className="flex flex-wrap gap-4 mb-10">
+                {["100% Confidential", "No Recordings", "MBBS Doctors"].map(
+                  (badge, i) => (
+                    <span
+                      key={i}
+                      className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/90 font-medium"
+                    >
+                      {badge}
+                    </span>
+                  )
+                )}
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  to="/signup"
+                  className="group px-8 py-4 bg-white text-primary rounded-full font-bold text-lg hover:bg-accent hover:text-white transition-all inline-flex items-center justify-center gap-2 shadow-2xl"
+                >
+                  Take a Quick Quiz
+                  <ArrowRight
+                    size={20}
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
+                </Link>
+                <Link
+                  to="/doctors"
+                  className="px-8 py-4 border-2 border-white/30 text-white rounded-full font-bold text-lg hover:bg-white/10 transition-all text-center"
+                >
+                  Meet Our Doctors
+                </Link>
+              </div>
+            </div>
+
+            {/* Right: Visual Element */}
+            <div className="scroll-fade-in hidden lg:block">
+              <div className="relative">
+                {/* Floating card */}
+                <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-14 h-14 bg-accent rounded-full flex items-center justify-center">
+                      <Shield size={28} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="text-white font-bold text-lg">
+                        Your Privacy, Guaranteed
+                      </p>
+                      <p className="text-white/60 text-sm">
+                        End-to-end encrypted sessions
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {[
+                      { label: "Session Duration", value: "30-45 mins" },
+                      { label: "Billing Name", value: "HM Wellness" },
+                      { label: "Data Retention", value: "Minimal" },
+                    ].map((item, i) => (
+                      <div
+                        key={i}
+                        className="flex justify-between items-center py-3 border-b border-white/10 last:border-0"
+                      >
+                        <span className="text-white/60">{item.label}</span>
+                        <span className="text-white font-semibold">
+                          {item.value}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Decorative floating element */}
+                <div className="absolute -top-6 -right-6 w-24 h-24 bg-accent/30 rounded-2xl blur-xl" />
+                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-secondary/30 rounded-2xl blur-xl" />
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <Footer />

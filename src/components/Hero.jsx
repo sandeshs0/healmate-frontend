@@ -22,15 +22,20 @@ export default function Hero() {
               to="/signup"
               className="px-8 py-4 bg-primary text-white rounded-full font-semibold text-base hover:bg-primary-dark transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
             >
-              Book a Session <ChevronRight size={18} />
+              Take a Quiz <ChevronRight size={18} />
             </Link>
 
-            <Link
-              to="/pricing"
+            <a
+              href="#how-it-works"
               className="px-8 py-4 border border-primary/30 text-primary rounded-full font-semibold text-base hover:bg-primary/5 transition-all text-center"
+              onClick={e => {
+                e.preventDefault();
+                const section = document.querySelector("#how-it-works");
+                if (section) section.scrollIntoView({ behavior: "smooth" });
+              }}
             >
-              See Pricing
-            </Link>
+              How it Works
+            </a>
           </div>
         </div>
 
