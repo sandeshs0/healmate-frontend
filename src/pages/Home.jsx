@@ -281,7 +281,7 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
-                  to="/signup"
+                  to="/healmate-quiz"
                   className="group px-8 py-4 bg-white text-primary rounded-full font-bold text-lg hover:bg-accent hover:text-white transition-all inline-flex items-center justify-center gap-2 shadow-2xl"
                 >
                   Take a Quick Quiz

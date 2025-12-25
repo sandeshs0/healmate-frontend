@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import Header from "../components/Header";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
@@ -7,6 +12,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
@@ -57,7 +63,10 @@ export default function Login() {
 
     try {
       await login(formData.email, formData.password);
-      navigate("/dashboard");
+      // Redirect to returnTo if provided, otherwise to dashboard or home
+      const returnTo =
+        location.state?.returnTo || location.state?.from?.pathname || "/";
+      navigate(returnTo, { replace: true });
     } catch (err) {
       setError(
         err.response?.data?.error ||

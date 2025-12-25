@@ -19,7 +19,7 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
-              to="/signup"
+              to="/healmate-quiz"
               className="px-8 py-4 bg-primary text-white rounded-full font-semibold text-base hover:bg-primary-dark transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
             >
               Take a Quiz <ChevronRight size={18} />

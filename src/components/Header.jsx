@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { label: "How It Works", href: "/#how-it-works", isAnchor: true },
+  { label: "Take Quiz", href: "/healmate-quiz", isAnchor: false },
   { label: "Our Doctors", href: "/doctors", isAnchor: false },
   { label: "Pricing", href: "/pricing", isAnchor: false },
   { label: "FAQ", href: "/#faq", isAnchor: true },

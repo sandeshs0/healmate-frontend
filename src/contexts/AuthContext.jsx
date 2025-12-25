@@ -10,10 +10,17 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
+
     if (storedToken) {
       setToken(storedToken);
-      // Optionally verify token and fetch user
-      // authService.getCurrentUser().then(setUser).catch(() => {});
+      if (storedUser) {
+        try {
+          setUser(JSON.parse(storedUser));
+        } catch (e) {
+          console.error("Failed to parse stored user:", e);
+        }
+      }
     }
     setLoading(false);
   }, []);
@@ -27,6 +34,7 @@ export function AuthProvider({ children }) {
     setToken(data.token);
     setUser(data.user);
     localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
   };
 
   const login = async (email, password) => {
@@ -34,12 +42,14 @@ export function AuthProvider({ children }) {
     setToken(data.token);
     setUser(data.user);
     localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
   };
 
   const logout = () => {
     setToken(null);
     setUser(null);
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
   };
 
   return (

@@ -5,7 +5,7 @@ const testimonials = [
     quote:
       "I was skeptical at first. But after just one session, I realized how much I'd been holding in. The doctor was genuinely understanding, not clinical at all.",
     author: "Anonymous",
-    location: "Delhi",
+    location: "Melborne",
     age: "32",
     highlight: "genuinely understanding",
   },
@@ -13,7 +13,7 @@ const testimonials = [
     quote:
       "The privacy aspect sold me. No one knows, my wife doesn't know, and that's exactly what I needed to actually open up about this stuff.",
     author: "Anonymous",
-    location: "Mumbai",
+    location: "Auckland",
     age: "28",
     highlight: "No one knows",
   },
@@ -21,7 +21,7 @@ const testimonials = [
     quote:
       "Thought I needed pills. Turns out I needed someone to actually listen and give me real techniques. Three sessions in and the difference is night and day.",
     author: "Anonymous",
-    location: "Bangalore",
+    location: "Texas",
     age: "35",
     highlight: "real techniques",
   },
@@ -49,9 +49,7 @@ export default function Testimonials() {
           {testimonials.map((t, i) => (
             <div
               key={i}
-              className={`scroll-fade-in ${
-                i === 1 ? "md:-translate-y-8" : ""
-              }`}
+              className={`scroll-fade-in ${i === 1 ? "md:-translate-y-8" : ""}`}
               style={{ animationDelay: `${i * 150}ms` }}
             >
               <div className="bg-white rounded-3xl p-8 h-full shadow-sm hover:shadow-xl transition-shadow duration-500 border border-gray-100 relative group">
@@ -100,4 +98,3 @@ export default function Testimonials() {
     </section>
   );
 }
-
