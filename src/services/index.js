@@ -4,4 +4,5 @@
  */
 
 export { authService } from "./authService";
+export { doctorService } from "./doctorService";
 export { quizService } from "./quizService";

@@ -103,7 +103,11 @@ export default function AdminQuizzes() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           {loading ? (
             <div className="p-12 text-center">
-              <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <div className="space-y-4">
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <div key={idx} className="h-20 bg-gray-200 rounded-lg animate-pulse" />
+                ))}
+              </div>
               <p className="text-gray-500">Loading quizzes...</p>
             </div>
           ) : filteredQuizzes.length === 0 ? (

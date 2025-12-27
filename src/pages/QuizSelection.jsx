@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { quizService } from "../services/quizService";
 import { useAuth } from "../contexts/AuthContext";
+import { SkeletonGrid, SkeletonQuizCard } from "../components/ui/Skeleton";
 
 export default function QuizSelection() {
   const { token } = useAuth();
@@ -53,9 +54,7 @@ export default function QuizSelection() {
 
           {/* Quizzes Grid */}
           {loading ? (
-            <div className="flex items-center justify-center py-20">
-              <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-            </div>
+            <SkeletonGrid count={6} CardComponent={SkeletonQuizCard} />
           ) : quizzes.length === 0 ? (
             <div className="text-center py-20">
               <FileQuestion size={64} className="mx-auto text-gray-300 mb-4" />
@@ -66,37 +65,55 @@ export default function QuizSelection() {
               {quizzes.map((quiz) => (
                 <div
                   key={quiz.id}
-                  className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-primary hover:shadow-lg transition-all group"
+                  className="bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-primary hover:shadow-lg transition-all group"
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                      <FileQuestion size={24} className="text-primary" />
+                  {/* Thumbnail Image */}
+                  <div className="relative w-full h-48 bg-gradient-to-br from-primary/10 to-accent/10 overflow-hidden">
+                    {quiz.thumbnail ? (
+                      <img
+                        src={quiz.thumbnail}
+                        alt={quiz.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        onError={(e) => {
+                          // Fallback to gradient if image fails to load
+                          e.target.style.display = "none";
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <FileQuestion size={48} className="text-primary/40" />
+                      </div>
+                    )}
+                    <div className="absolute top-3 right-3">
+                      <span className="px-2.5 py-1 bg-white/90 backdrop-blur-sm text-accent rounded-full text-xs font-medium shadow-sm">
+                        {quiz.problemTag}
+                      </span>
                     </div>
-                    <span className="px-2.5 py-1 bg-accent/10 text-accent rounded-full text-xs font-medium">
-                      {quiz.problemTag}
-                    </span>
                   </div>
 
-                  <h3 className="text-xl font-display font-bold text-gray-900 mb-2">
-                    {quiz.title}
-                  </h3>
-                  {quiz.description && (
-                    <p className="text-gray-500 text-sm mb-4 line-clamp-2">
-                      {quiz.description}
-                    </p>
-                  )}
+                  {/* Content */}
+                  <div className="p-6">
+                    <h3 className="text-xl font-display font-bold text-gray-900 mb-2">
+                      {quiz.title}
+                    </h3>
+                    {quiz.description && (
+                      <p className="text-gray-500 text-sm mb-4 line-clamp-2">
+                        {quiz.description}
+                      </p>
+                    )}
 
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                    <span className="text-sm text-gray-500">
-                      {quiz._count?.questions || 0} questions
-                    </span>
-                    <button
-                      onClick={() => handleTakeQuiz(quiz.slug)}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark transition-colors group-hover:gap-3"
-                    >
-                      {token ? "Take Quiz" : "Login to Start"}
-                      <ArrowRight size={18} />
-                    </button>
+                    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                      <span className="text-sm text-gray-500">
+                        {quiz._count?.questions || 0} questions
+                      </span>
+                      <button
+                        onClick={() => handleTakeQuiz(quiz.slug)}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark transition-colors group-hover:gap-3"
+                      >
+                        {token ? "Take Quiz" : "Login to Start"}
+                        <ArrowRight size={18} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -129,4 +146,6 @@ export default function QuizSelection() {
     </div>
   );
 }
+
+
 

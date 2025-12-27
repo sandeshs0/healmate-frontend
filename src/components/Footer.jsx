@@ -27,7 +27,7 @@ export default function Footer() {
           <h4 className="font-bold mb-6 text-accent">Navigation</h4>
           <ul className="space-y-4 text-gray-400">
             <li>
-              <Link to="/doctors" className="hover:text-white transition-colors">
+              <Link to="/our-doctors" className="hover:text-white transition-colors">
                 The Doctors
               </Link>
             </li>

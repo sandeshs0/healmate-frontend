@@ -135,7 +135,11 @@ export default function QuizResponses() {
         {/* Responses List */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+            <div className="space-y-4">
+              {Array.from({ length: 5 }).map((_, idx) => (
+                <div key={idx} className="h-20 bg-gray-200 rounded-lg animate-pulse" />
+              ))}
+            </div>
           </div>
         ) : responses.length === 0 ? (
           <div className="bg-white rounded-xl p-12 text-center border border-gray-100">
@@ -361,4 +365,6 @@ export default function QuizResponses() {
     </AdminLayout>
   );
 }
+
+
 

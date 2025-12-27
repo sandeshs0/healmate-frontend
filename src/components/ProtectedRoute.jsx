@@ -15,7 +15,11 @@ export default function ProtectedRoute({ children, requiredRole }) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          <div className="space-y-4 w-full max-w-md mx-auto">
+            <div className="h-8 bg-gray-200 rounded animate-pulse" />
+            <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4" />
+            <div className="h-10 bg-gray-200 rounded animate-pulse mt-6" />
+          </div>
           <p className="text-gray-500">Loading...</p>
         </div>
       </div>
@@ -34,4 +38,6 @@ export default function ProtectedRoute({ children, requiredRole }) {
 
   return children;
 }
+
+
 

@@ -177,7 +177,11 @@ export default function AdminQuizDetail() {
     return (
       <AdminLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          <div className="space-y-4">
+            {Array.from({ length: 5 }).map((_, idx) => (
+              <div key={idx} className="h-24 bg-gray-200 rounded-lg animate-pulse" />
+            ))}
+          </div>
         </div>
       </AdminLayout>
     );

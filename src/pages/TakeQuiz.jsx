@@ -205,7 +205,15 @@ export default function TakeQuiz() {
       <div className="min-h-screen bg-white">
         <Header />
         <div className="flex items-center justify-center h-64">
-          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          <div className="space-y-4">
+            <div className="h-8 bg-gray-200 rounded animate-pulse" />
+            <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4" />
+            <div className="space-y-2 mt-6">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-12 bg-gray-200 rounded animate-pulse" />
+              ))}
+            </div>
+          </div>
         </div>
         <Footer />
       </div>

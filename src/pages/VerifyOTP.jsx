@@ -49,8 +49,18 @@ export default function VerifyOTP() {
     }
 
     try {
-      await verifyOTP(email, otp);
-      navigate("/dashboard");
+      const data = await verifyOTP(email, otp);
+      const userRole = data?.user?.role;
+      
+      // Redirect based on user role
+      let redirectTo = "/dashboard";
+      if (userRole === "admin") {
+        redirectTo = "/admin";
+      } else if (userRole === "doctor") {
+        redirectTo = "/doctor/dashboard";
+      }
+      
+      navigate(redirectTo, { replace: true });
     } catch (err) {
       setError(
         err.response?.data?.error || "Verification failed. Please try again."

@@ -34,17 +34,77 @@ export const quizService = {
 
   /**
    * Create a new quiz (admin)
+   * Supports file upload for thumbnail
    */
-  createQuiz: async (data) => {
-    const response = await api.post("/quiz", data);
+  createQuiz: async (data, thumbnailFile = null) => {
+    const formData = new FormData();
+    
+    // Append all form fields
+    Object.keys(data).forEach((key) => {
+      if (key === "thumbnail" && thumbnailFile) {
+        // Skip URL if file is provided
+        return;
+      }
+      if (data[key] !== undefined && data[key] !== null) {
+        formData.append(key, data[key]);
+      }
+    });
+    
+    // Append file if provided
+    if (thumbnailFile) {
+      formData.append("image", thumbnailFile);
+    }
+    
+    const response = await api.post("/quiz", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data;
   },
 
   /**
    * Update a quiz (admin)
+   * Supports file upload for thumbnail
    */
-  updateQuiz: async (id, data) => {
-    const response = await api.put(`/quiz/${id}`, data);
+  updateQuiz: async (id, data, thumbnailFile = null) => {
+    const formData = new FormData();
+    
+    // Append all form fields
+    Object.keys(data).forEach((key) => {
+      if (key === "thumbnail" && thumbnailFile) {
+        // Skip URL if file is provided
+        return;
+      }
+      if (data[key] !== undefined && data[key] !== null) {
+        formData.append(key, data[key]);
+      }
+    });
+    
+    // Append file if provided
+    if (thumbnailFile) {
+      formData.append("image", thumbnailFile);
+    }
+    
+    const response = await api.put(`/quiz/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  },
+
+  /**
+   * Upload quiz thumbnail (admin)
+   */
+  uploadQuizThumbnail: async (id, file) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    const response = await api.post(`/quiz/${id}/upload-thumbnail`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     return response.data;
   },
 
@@ -124,4 +184,6 @@ export const quizService = {
     return response.data;
   },
 };
+
+
 

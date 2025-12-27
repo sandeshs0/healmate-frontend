@@ -12,11 +12,14 @@ export default function AdminQuizForm() {
   const [loading, setLoading] = useState(isEditing);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+  const [thumbnailFile, setThumbnailFile] = useState(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
     description: "",
     problemTag: "",
+    thumbnail: "",
     isActive: true,
   });
 
@@ -38,8 +41,12 @@ export default function AdminQuizForm() {
           slug: quiz.slug,
           description: quiz.description || "",
           problemTag: quiz.problemTag,
+          thumbnail: quiz.thumbnail || "",
           isActive: quiz.isActive,
         });
+        if (quiz.thumbnail) {
+          setThumbnailPreview(quiz.thumbnail);
+        }
       }
     } catch (error) {
       console.error("Failed to load quiz:", error);
@@ -73,9 +80,22 @@ export default function AdminQuizForm() {
 
     try {
       if (isEditing) {
-        await quizService.updateQuiz(id, formData);
+        await quizService.updateQuiz(
+          id,
+          {
+            ...formData,
+            thumbnail: !thumbnailFile ? formData.thumbnail || undefined : undefined,
+          },
+          thumbnailFile
+        );
       } else {
-        await quizService.createQuiz(formData);
+        await quizService.createQuiz(
+          {
+            ...formData,
+            thumbnail: !thumbnailFile ? formData.thumbnail || undefined : undefined,
+          },
+          thumbnailFile
+        );
       }
       navigate("/admin/quizzes");
     } catch (error) {
@@ -92,7 +112,12 @@ export default function AdminQuizForm() {
     return (
       <AdminLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          <div className="space-y-6">
+            <div className="h-10 bg-gray-200 rounded animate-pulse" />
+            <div className="h-10 bg-gray-200 rounded animate-pulse" />
+            <div className="h-24 bg-gray-200 rounded animate-pulse" />
+            <div className="h-10 bg-gray-200 rounded animate-pulse" />
+          </div>
         </div>
       </AdminLayout>
     );
@@ -204,6 +229,72 @@ export default function AdminQuizForm() {
               />
             </div>
 
+            {/* Thumbnail */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Thumbnail Image
+              </label>
+              <div className="space-y-3">
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setThumbnailFile(file);
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setThumbnailPreview(reader.result);
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      className="hidden"
+                      id="thumbnail"
+                    />
+                    <label
+                      htmlFor="thumbnail"
+                      className="cursor-pointer px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors inline-block"
+                    >
+                      Choose File
+                    </label>
+                  </div>
+                  {thumbnailFile && (
+                    <span className="text-sm text-gray-600">
+                      {thumbnailFile.name}
+                    </span>
+                  )}
+                </div>
+                {(thumbnailPreview || formData.thumbnail) && (
+                  <div className="mt-3">
+                    <img
+                      src={thumbnailPreview || formData.thumbnail}
+                      alt="Thumbnail preview"
+                      className="w-full max-w-md h-48 object-cover rounded-lg border-2 border-gray-200"
+                    />
+                  </div>
+                )}
+                <p className="text-xs text-gray-500">
+                  Upload a thumbnail image (JPG, PNG, max 5MB). Recommended: 1200x630px. Or enter a URL below.
+                </p>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
+                    OR
+                  </span>
+                  <input
+                    type="url"
+                    name="thumbnail"
+                    value={formData.thumbnail}
+                    onChange={handleChange}
+                    placeholder="https://example.com/thumbnail.jpg"
+                    className="w-full pl-12 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  />
+                </div>
+              </div>
+            </div>
+
             {/* Active Status */}
             <div className="flex items-center gap-3">
               <input
@@ -252,4 +343,6 @@ export default function AdminQuizForm() {
     </AdminLayout>
   );
 }
+
+
 

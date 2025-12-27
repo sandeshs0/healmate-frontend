@@ -2,53 +2,65 @@ import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
-  FileQuestion,
-  Users,
-  UserCircle,
   Calendar,
+  User,
   Settings,
   LogOut,
   Menu,
   X,
   ChevronDown,
   Bell,
+  History,
+  DollarSign,
+  FileText,
+  Video,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
 const sidebarLinks = [
   {
     label: "Dashboard",
-    href: "/admin",
+    href: "/doctor/dashboard",
     icon: LayoutDashboard,
   },
   {
-    label: "Users",
-    href: "/admin/users",
-    icon: UserCircle,
+    label: "Sessions",
+    href: "/doctor/bookings",
+    icon: Video,
   },
   {
-    label: "Manage Quizzes",
-    href: "/admin/quizzes",
-    icon: FileQuestion,
+    label: "History",
+    href: "/doctor/history",
+    icon: History,
   },
   {
-    label: "Doctors",
-    href: "/admin/doctors",
-    icon: Users,
-  },
-  {
-    label: "Bookings",
-    href: "/admin/bookings",
+    label: "Calendar",
+    href: "/doctor/calendar",
     icon: Calendar,
   },
   {
+    label: "Earnings",
+    href: "/doctor/earnings",
+    icon: DollarSign,
+  },
+  {
+    label: "Notes",
+    href: "/doctor/notes",
+    icon: FileText,
+  },
+  {
+    label: "Profile",
+    href: "/doctor/profile",
+    icon: User,
+  },
+  {
     label: "Settings",
-    href: "/admin/settings",
+    href: "/doctor/settings",
     icon: Settings,
   },
 ];
 
-export default function AdminLayout({ children }) {
+export default function DoctorLayout({ children }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -77,12 +89,12 @@ export default function AdminLayout({ children }) {
       >
         {/* Logo */}
         <div className="h-16 flex items-center justify-between px-6 border-b border-gray-800">
-          <Link to="/admin" className="flex items-center gap-2">
+          <Link to="/doctor/dashboard" className="flex items-center gap-2">
             <span className="text-xl font-display font-bold text-white">
               HEALMATE
             </span>
             <span className="text-xs bg-accent/20 text-accent px-2 py-0.5 rounded-full font-medium">
-              Admin
+              Doctor
             </span>
           </Link>
           <button
@@ -99,7 +111,7 @@ export default function AdminLayout({ children }) {
             <NavLink
               key={link.href}
               to={link.href}
-              end={link.href === "/admin"}
+              end={link.href === "/doctor/dashboard"}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                   isActive
@@ -140,7 +152,7 @@ export default function AdminLayout({ children }) {
               <Menu size={24} />
             </button>
             <h1 className="text-lg font-semibold text-gray-900">
-              Admin Dashboard
+              Doctor Dashboard
             </h1>
           </div>
 
@@ -159,10 +171,10 @@ export default function AdminLayout({ children }) {
                 className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-lg"
               >
                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                  {user?.name?.charAt(0) || user?.email?.charAt(0) || "A"}
+                  {user?.name?.charAt(0) || user?.email?.charAt(0) || "D"}
                 </div>
                 <span className="hidden sm:block text-sm font-medium text-gray-700">
-                  {user?.name || user?.email || "Admin"}
+                  Dr. {user?.name || user?.email || "Doctor"}
                 </span>
                 <ChevronDown size={16} className="text-gray-500" />
               </button>
@@ -175,7 +187,14 @@ export default function AdminLayout({ children }) {
                   />
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-20">
                     <Link
-                      to="/admin/settings"
+                      to="/doctor/profile"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setProfileOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                    <Link
+                      to="/doctor/settings"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => setProfileOpen(false)}
                     >
@@ -200,6 +219,4 @@ export default function AdminLayout({ children }) {
     </div>
   );
 }
-
-
 

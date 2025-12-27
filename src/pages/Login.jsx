@@ -62,11 +62,26 @@ export default function Login() {
     }
 
     try {
-      await login(formData.email, formData.password);
-      // Redirect to returnTo if provided, otherwise to dashboard or home
-      const returnTo =
-        location.state?.returnTo || location.state?.from?.pathname || "/";
-      navigate(returnTo, { replace: true });
+      const loginData = await login(formData.email, formData.password);
+      const userRole = loginData?.user?.role;
+      
+      // Determine redirect destination
+      let redirectTo = "/";
+      
+      // Priority: returnTo > role-based > default
+      if (location.state?.returnTo) {
+        redirectTo = location.state.returnTo;
+      } else if (location.state?.from?.pathname) {
+        redirectTo = location.state.from.pathname;
+      } else if (userRole === "admin") {
+        redirectTo = "/admin";
+      } else if (userRole === "doctor") {
+        redirectTo = "/doctor/dashboard";
+      } else {
+        redirectTo = "/dashboard"; // User dashboard
+      }
+      
+      navigate(redirectTo, { replace: true });
     } catch (err) {
       setError(
         err.response?.data?.error ||
